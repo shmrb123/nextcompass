@@ -1,0 +1,232 @@
+[
+	{
+		"id": 0,
+		"question": "Bedrijfsvrijheid is de beste praktische manier voor een samenleving om welvarend te zijn.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 1,
+		"question": "Liefdadigheid is een beter manier om mensen in nood te helpen dan sociale zekerheid.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 2,
+		"question": "Lonen zijn altijd eerlijk, omdat werkgevers het beste weten wat het werk van een werknemer waard is.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 3,
+		"question": "Het is 'menselijke natuur' om hebzuchtig te zijn.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 4,
+		"question": "'Uitbuiting' is een verouderde term, omdat de strijd uit het kapitalisme van de jaren 1800 niet meer bestaat.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 5,
+		"question": "Communisme is een ideaal dat in de praktijk nooit kan werken.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 6,
+		"question": "Belastingheffing van de rijken is een slecht idee, de samenleving zou beter af zijn zonder.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 7,
+		"question": "Hoe harder je werkt, hoe meer je opschuift op de maatschappelijke ladder.",
+		"effects": { "right": 1 }
+	},
+	{
+		"id": 8,
+		"question": "Organisaties en bedrijven kunnen niet vertrouwd worden en hebben regelgeving door de regering nodig.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 9,
+		"question": "Een regering die voor iedereen zorgt, is inherent een goed idee.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 10,
+		"question": "Het huidige systeem van sociale zekerheid zou uitgebreid moeten worden om ongelijkheid verder te bestrijden.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 11,
+		"question": "Land mag geen handelsgoed zijn dat gekocht en verkocht kan worden.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 12,
+		"question": "Alle industrie en banken moeten genationaliseerd worden.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 13,
+		"question": "Klasse is de belangrijkste splitsing van de maatschappij.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 14,
+		"question": "Economische ongelijkheid is te hoog in de wereld.",
+		"effects": { "right": -1 }
+	},
+	{
+		"id": 15,
+		"question": "Soms mag de regering haar burgers bespioneren om extremisten en terroristen te bestrijden.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 16,
+		"question": "Gezagsdragers, als zij moreel juist zijn, zijn iets goeds voor de samenleving.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 17,
+		"question": "Sterkte is noodzakelijk voor een regering om te slagen.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 18,
+		"question": "Alleen de regering kan organisaties eerlijk en effectief reguleren.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 19,
+		"question": "De samenleving heeft structuur en bureaucratie nodig om te functioneren.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 20,
+		"question": "Verplichte ID's moeten gebruikt worden voor openbare veiligheid.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 21,
+		"question": "In tijden van crisis wordt veiligheid belangrijker dan burgerlijke vrijheden.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 22,
+		"question": "Als je niets te verbergen hebt, hoef je niet bang te zijn.",
+		"effects": { "auth": 1 }
+	},
+	{
+		"id": 23,
+		"question": "De regering zou minder betrokken moeten zijn bij het dagelijks leven van haar burgers.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 24,
+		"question": "Zonder democratie is een samenleving niets.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 25,
+		"question": "Jury nullification moet legaal zijn.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 26,
+		"question": "Hoe kleiner de regering, hoe vrijer de mensen.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 27,
+		"question": "De regering zou maximaal nood- en politiediensten moeten leveren.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 28,
+		"question": "De politie is niet gemaakt om mensen te beschermen, maar om de status-quo met geweld te handhaven.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 29,
+		"question": "Openbare scholen zijn een slecht idee omdat de staat onze kinderen niet zou mogen beïnvloeden.",
+		"effects": { "auth": -1 }
+	},
+	{
+		"id": 30,
+		"question": "Twee toestemmende individuen zouden alles met elkaar kunnen doen wat zij willen, ook al maakt het mij ongemakkelijk.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 31,
+		"question": "Het lichaam van een individu is hun eigendom, en zij moeten alles ermee kunnen doen wat zij wensen.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 32,
+		"question": "Een persoon moet kunnen aanbidden wie of wat zij willen.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 33,
+		"question": "Naturisme is volkomen natuurlijk.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 34,
+		"question": "Dieren verdienen bepaalde universele rechten.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 35,
+		"question": "Geslacht is een maatschappelijk construct, geen natuurlijke toestand.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 36,
+		"question": "Wetten gebaseerd op culturele waarden, in plaats van ethische, zijn geen gerechtigheid.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 37,
+		"question": "Autonomie van het lichaam strekt zich ook uit tot minderjarigen, geesteszieken en ernstige criminelen.",
+		"effects": { "prog": 1 }
+	},
+	{
+		"id": 38,
+		"question": "Homoseksualiteit gaat tegen mijn waarden in.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 39,
+		"question": "Transgender personen zouden geen kinderen mogen adopteren.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 40,
+		"question": "Drugs zijn schadelijk en moeten verboden worden.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 41,
+		"question": "De doodstraf moet voor bepaalde misdaden bestaan.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 42,
+		"question": "Misdrijven zonder slachtoffers zouden nog steeds gestraft moeten worden.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 43,
+		"question": "Men kan niet moreel zijn zonder religie.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 44,
+		"question": "Ouders zouden absolute macht over hun kinderen moeten hebben, omdat zij ouder en ervaarder zijn.",
+		"effects": { "prog": -1 }
+	},
+	{
+		"id": 45,
+		"question": "Multiculturalisme is slecht.",
+		"effects": { "prog": -1 }
+	}
+]
