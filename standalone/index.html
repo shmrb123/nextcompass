@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NextCompass - Political Compass Test</title>
+	<style>
+		:root {
+			--background-color: #ddd;
+			--text-color: #444;
+			--secondary-background-color: #ccc;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--background-color: #111;
+				--text-color: #ddd;
+				--secondary-background-color: #222;
+			}
+			a {
+				color: steelblue;
+			}
+			a:hover {
+				color: #4fa3ff;
+			}
+		}
+
+		* {
+			font-family: 'Roboto', 'Segoe UI', sans-serif;
+		}
+
+		html, body {
+			background-color: var(--background-color);
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			width: 80%;
+			min-height: calc(100vh - 4em);
+			margin: 0 auto;
+			padding: 2em;
+			color: var(--text-color);
+		}
+
+		h1, h2 {
+			color: var(--text-color);
+			filter: brightness(0.8);
+			text-align: center;
+		}
+
+		h1 {
+			margin-top: 0;
+			margin-bottom: 0;
+			font-size: 72pt;
+			line-height: 72pt;
+		}
+
+		h2 {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 36pt;
+			line-height: 36pt;
+		}
+
+		p, blockquote {
+			color: var(--text-color);
+			font-size: 16pt;
+			line-height: 1;
+		}
+
+		p.question {
+			font-size: 24pt;
+			text-align: center;
+			min-height: 80px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 2em 0;
+		}
+
+		a {
+			color: #1976d2;
+		}
+
+		li {
+			font-size: 16pt;
+			text-indent: 16pt;
+		}
+
+		.button {
+			background-color: #2196f3;
+			font-family: 'Montserrat', sans-serif;
+			border: none;
+			border-radius: 8pt;
+			color: white;
+			padding: 8pt;
+			width: 100%;
+			max-width: 500pt;
+			text-align: center;
+			text-decoration: none;
+			display: block;
+			font-size: 24pt;
+			margin: 8px auto;
+			cursor: pointer;
+			box-sizing: border-box;
+			user-select: none;
+		}
+
+		.button:hover {
+			color: white;
+			opacity: 0.9;
+		}
+
+		.button:active {
+			box-shadow: inset 0px 3px 15px rgba(0, 0, 0, 0.3);
+		}
+
+		.answer-buttons {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin: 2em 0;
+		}
+
+		.answer-buttons .button {
+			margin: 0;
+		}
+
+		.progress {
+			text-align: center;
+			margin: 20px 0;
+			font-size: 18pt;
+		}
+
+		.home-container, .quiz-container, .results-container {
+			display: none;
+		}
+
+		.home-container.active, .quiz-container.active, .results-container.active {
+			display: block;
+		}
+
+		#banner {
+			border-color: #444444;
+			border-style: solid;
+			border-width: 2px;
+			border-radius: 8pt;
+			display: block;
+			margin: 8pt auto;
+			max-width: 500pt;
+			width: 100%;
+		}
+
+		.header {
+			text-align: center;
+			margin-bottom: 2em;
+		}
+
+		.CompassContainer {
+			margin: auto;
+			width: 100%;
+			max-width: 500pt;
+			text-align: center;
+			margin-bottom: 2em;
+		}
+
+		.CompassImage {
+			width: 100%;
+			border-color: #444444;
+			border-style: solid;
+			border-width: 2px;
+			border-radius: 8pt;
+		}
+
+		.AnswerTableWrap {
+			border-width: 1px;
+			border-style: solid;
+			border-color: var(--text-color);
+			overflow: hidden;
+			border-radius: 8px;
+			background-color: var(--background-color);
+			margin-bottom: 1em;
+			display: inline-block;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		.AnswerTable {
+			width: 100%;
+			border-collapse: collapse;
+			margin: auto;
+		}
+
+		.AnswerTable th,
+		.AnswerTable tr,
+		.AnswerTable td {
+			border-color: var(--text-color);
+			border-style: solid;
+			border-width: 0;
+		}
+
+		.AnswerTable th {
+			border-bottom-width: 1px;
+			background-color: var(--secondary-background-color);
+			padding: 0.5em;
+		}
+
+		.AnswerTable tr:not(:last-child) td {
+			border-bottom-width: 1px;
+		}
+
+		.AnswerTable tr {
+			background-color: white;
+		}
+
+		.AnswerTable td {
+			padding: 0.5em;
+		}
+
+		.AnswerTable td:not(:first-child) {
+			border-left-width: 1px;
+		}
+
+		.Orientation {
+			text-align: center;
+			color: var(--text-color);
+		}
+
+		.Right { background: linear-gradient(180deg, #ff6680 0%, #ff6680 50%, #ffff99 50%, #ffff99 100%); }
+		.Left { background: linear-gradient(180deg, #ff6680 0%, #ff6680 50%, #99ff99 50%, #99ff99 100%); }
+		.Auth { background: linear-gradient(90deg, #ff6680 0%, #ff6680 50%, #6680ff 50%, #6680ff 100%); }
+		.Lib { background: linear-gradient(90deg, #99ff99 0%, #99ff99 50%, #ffff99 50%, #ffff99 100%); }
+		.Prog { background-color: #99ff99; }
+		.Con { background-color: #6680ff; }
+		.Centrist { background-color: #e0e0e0; }
+
+		@media (prefers-color-scheme: dark) {
+			.AnswerTable tr { background-color: var(--background-color); }
+			.AnswerTableWrap { border-color: #555; }
+			.AnswerTable th, .AnswerTable tr, .AnswerTable td { border-color: #555; }
+			.Right { background: linear-gradient(180deg, #003366 0%, #003366 50%, #666600 50%, #666600 100%); }
+			.Left { background: linear-gradient(180deg, #330000 0%, #330000 50%, #003300 50%, #003300 100%); }
+			.Auth { background: linear-gradient(90deg, #330000 0%, #330000 50%, #000033 50%, #000033 100%); }
+			.Lib { background: linear-gradient(90deg, #003300 0%, #003300 50%, #333300 50%, #333300 100%); }
+			.Prog { background-color: #003300; }
+			.Con { background-color: #000033; }
+			.Centrist { background-color: #1a1a1a; }
+		}
+
+		@media screen and (orientation: portrait) {
+			body {
+				width: auto !important;
+				padding: 1em;
+			}
+			.button, p.question {
+				min-width: 0px;
+				max-width: 100%;
+				width: 100%;
+				font-size: 1.5em;
+			}
+			h2 { font-size: 1.5em; line-height: initial; }
+			p.question { font-size: 1.75em; }
+		}
+
+		.language-toggle {
+			text-align: center;
+			margin-bottom: 1em;
+		}
+
+		.language-toggle button {
+			background-color: #666;
+			color: white;
+			border: none;
+			padding: 8px 16px;
+			margin: 0 4px;
+			cursor: pointer;
+			border-radius: 4px;
+			font-size: 14pt;
+		}
+
+		.language-toggle button.active {
+			background-color: #2196f3;
+		}
+	</style>
+</head>
+<body>
+	<div class="language-toggle">
+		<button onclick="setLanguage('en')" class="active" id="lang-en">English</button>
+		<button onclick="setLanguage('nl')" id="lang-nl">Nederlands</button>
+	</div>
+
+	<!-- Home Page -->
+	<div class="home-container active">
+		<div class="header">
+			<h1>NextCompass</h1>
+		</div>
+		<canvas id="banner" width="500" height="433" style="border: 2px solid #444; border-radius: 8pt; display: block; margin: 8pt auto; max-width: 500pt;"></canvas>
+		<button class="button" onclick="startQuiz()">Start Quiz</button>
+		<h2 data-i18n="what_is_nextcompass">What is NextCompass?</h2>
+		<p data-i18n="nextcompass_desc">NextCompass is a fork of SapplyValues, which is an implementation of the Sapply political compass test with the UI of the 8values test.</p>
+		<p data-i18n="nextcompass_desc2">This is a standalone version that requires no server, no Node.js, and works entirely in your browser.</p>
+	</div>
+
+	<!-- Quiz Page -->
+	<div class="quiz-container">
+		<div class="header">
+			<h1>NextCompass</h1>
+		</div>
+		<div class="progress">
+			<span data-i18n="question">Question</span> <span id="current-question">1</span>/<span id="total-questions">46</span>
+		</div>
+		<p class="question" id="question-text"></p>
+		<div class="answer-buttons">
+			<button class="button" onclick="submitAnswer(1)" style="background-color: #4caf50;" data-i18n="strongly_agree">Strongly Agree</button>
+			<button class="button" onclick="submitAnswer(0.5)" style="background-color: #8bc34a;" data-i18n="agree">Agree</button>
+			<button class="button" onclick="submitAnswer(0)" style="background-color: #ff9800;" data-i18n="neutral">Neutral / Unsure</button>
+			<button class="button" onclick="submitAnswer(-0.5)" style="background-color: #ff5722;" data-i18n="disagree">Disagree</button>
+			<button class="button" onclick="submitAnswer(-1)" style="background-color: #f44336;" data-i18n="strongly_disagree">Strongly Disagree</button>
+		</div>
+	</div>
+
+	<!-- Results Page -->
+	<div class="results-container">
+		<div class="header">
+			<h1>Results</h1>
+		</div>
+		<h2 data-i18n="results">Results</h2>
+		<div class="CompassContainer">
+			<canvas id="compass-canvas" class="CompassImage" width="1850" height="1600"></canvas>
+		</div>
+		<h2 data-i18n="your_answers">Your Answers</h2>
+		<div class="AnswerTableWrap">
+			<table class="AnswerTable">
+				<thead>
+					<tr>
+						<th data-i18n="question">Question</th>
+						<th data-i18n="answer">Answer</th>
+						<th data-i18n="orientation">Orientation</th>
+					</tr>
+				</thead>
+				<tbody id="answers-table">
+				</tbody>
+			</table>
+		</div>
+		<button class="button" onclick="goHome()" style="background-color: #2196f3;" data-i18n="back">Back</button>
+	</div>
+
+	<script>
+		// Questions data (English)
+		const questionsEN = [
+			{ id: 0, question: "Freedom of business is the best practical way a society can prosper.", effects: { right: 1 } },
+			{ id: 1, question: "Charity is a better way of helping those in need than social welfare.", effects: { right: 1 } },
+			{ id: 2, question: "Wages are always fair, as employers know best what a worker's labour is worth.", effects: { right: 1 } },
+			{ id: 3, question: "It is \"human nature\" to be greedy.", effects: { right: 1 } },
+			{ id: 4, question: "\"Exploitation\" is an outdated term, as the struggles of 1800s capitalism doesn't exist anymore.", effects: { right: 1 } },
+			{ id: 5, question: "Communism is an ideal that can never work in practice.", effects: { right: 1 } },
+			{ id: 6, question: "Taxation of the wealthy is a bad idea, society would be better off without it.", effects: { right: 1 } },
+			{ id: 7, question: "The harder you work, the more you progress up the social ladder.", effects: { right: 1 } },
+			{ id: 8, question: "Organisations and corporations cannot be trusted and need regulating by the government.", effects: { right: -1 } },
+			{ id: 9, question: "A government that provides for everyone is an inherently good idea.", effects: { right: -1 } },
+			{ id: 10, question: "The current welfare system should be expanded to further combat inequality.", effects: { right: -1 } },
+			{ id: 11, question: "Land should not be a commodity to be bought and sold.", effects: { right: -1 } },
+			{ id: 12, question: "All industry and the bank should be nationalised.", effects: { right: -1 } },
+			{ id: 13, question: "Class is the primary division of society.", effects: { right: -1 } },
+			{ id: 14, question: "Economic inequality is too high in the world.", effects: { right: -1 } },
+			{ id: 15, question: "Sometimes it is right that the government may spy on its citizens to combat extremists and terrorists.", effects: { auth: 1 } },
+			{ id: 16, question: "Authority figures, if morally correct, are a good thing for society.", effects: { auth: 1 } },
+			{ id: 17, question: "Strength is necessary for any government to succeed.", effects: { auth: 1 } },
+			{ id: 18, question: "Only the government can fairly and effectively regulate organisations.", effects: { auth: 1 } },
+			{ id: 19, question: "Society requires structure and bureaucracy in order to function.", effects: { auth: 1 } },
+			{ id: 20, question: "Mandatory IDs should be used to ensure public safety.", effects: { auth: 1 } },
+			{ id: 21, question: "In times of crisis, safety becomes more important than civil liberties.", effects: { auth: 1 } },
+			{ id: 22, question: "If you have nothing to hide, you have nothing to fear.", effects: { auth: 1 } },
+			{ id: 23, question: "The government should be less involved in the day to day life of its citizens.", effects: { auth: -1 } },
+			{ id: 24, question: "Without democracy, a society is nothing.", effects: { auth: -1 } },
+			{ id: 25, question: "Jury nullification should be legal.", effects: { auth: -1 } },
+			{ id: 26, question: "The smaller the government, the freer the people.", effects: { auth: -1 } },
+			{ id: 27, question: "The government should, at most, provide emergency services and law enforcement.", effects: { auth: -1 } },
+			{ id: 28, question: "The police was not made to protect the people, but to uphold the status-quo by force.", effects: { auth: -1 } },
+			{ id: 29, question: "State schools are a bad idea because our state shouldn't be influencing our children.", effects: { auth: -1 } },
+			{ id: 30, question: "Two consenting individuals should be able to do whatever they want with each other, even if it makes me uncomfortable.", effects: { prog: 1 } },
+			{ id: 31, question: "An individual's body is their own property, and they should be able to do anything they desire to it.", effects: { prog: 1 } },
+			{ id: 32, question: "A person should be able to worship whomever or whatever they want.", effects: { prog: 1 } },
+			{ id: 33, question: "Nudism is perfectly natural.", effects: { prog: 1 } },
+			{ id: 34, question: "Animals deserve certain universal rights.", effects: { prog: 1 } },
+			{ id: 35, question: "Gender is a social construct, not a natural state of affairs.", effects: { prog: 1 } },
+			{ id: 36, question: "Laws based on cultural values, rather than ethical ones, aren't justice.", effects: { prog: 1 } },
+			{ id: 37, question: "Autonomy of body extends even to minors, the mentally ill, and serious criminals.", effects: { prog: 1 } },
+			{ id: 38, question: "Homosexuality is against my values.", effects: { prog: -1 } },
+			{ id: 39, question: "Transgender individuals should not be able to adopt children.", effects: { prog: -1 } },
+			{ id: 40, question: "Drugs are harmful and should be banned.", effects: { prog: -1 } },
+			{ id: 41, question: "The death penalty should exist for certain crimes.", effects: { prog: -1 } },
+			{ id: 42, question: "Victimless crimes should still be punished.", effects: { prog: -1 } },
+			{ id: 43, question: "One cannot be moral without religion.", effects: { prog: -1 } },
+			{ id: 44, question: "Parents should hold absolute power over their children, as they are older and more experienced.", effects: { prog: -1 } },
+			{ id: 45, question: "Multiculturalism is bad.", effects: { prog: -1 } }
+		];
+
+		// Questions data (Dutch)
+		const questionsNL = [
+			{ id: 0, question: "Bedrijfsvrijheid is de beste praktische manier voor een samenleving om welvarend te zijn.", effects: { right: 1 } },
+			{ id: 1, question: "Liefdadigheid is een beter manier om mensen in nood te helpen dan sociale zekerheid.", effects: { right: 1 } },
+			{ id: 2, question: "Lonen zijn altijd eerlijk, omdat werkgevers het beste weten wat het werk van een werknemer waard is.", effects: { right: 1 } },
+			{ id: 3, question: "Het is 'menselijke natuur' om hebzuchtig te zijn.", effects: { right: 1 } },
+			{ id: 4, question: "'Uitbuiting' is een verouderde term, omdat de strijd uit het kapitalisme van de jaren 1800 niet meer bestaat.", effects: { right: 1 } },
+			{ id: 5, question: "Communisme is een ideaal dat in de praktijk nooit kan werken.", effects: { right: 1 } },
+			{ id: 6, question: "Belastingheffing van de rijken is een slecht idee, de samenleving zou beter af zijn zonder.", effects: { right: 1 } },
+			{ id: 7, question: "Hoe harder je werkt, hoe meer je opschuift op de maatschappelijke ladder.", effects: { right: 1 } },
+			{ id: 8, question: "Organisaties en bedrijven kunnen niet vertrouwd worden en hebben regelgeving door de regering nodig.", effects: { right: -1 } },
+			{ id: 9, question: "Een regering die voor iedereen zorgt, is inherent een goed idee.", effects: { right: -1 } },
+			{ id: 10, question: "Het huidige systeem van sociale zekerheid zou uitgebreid moeten worden om ongelijkheid verder te bestrijden.", effects: { right: -1 } },
+			{ id: 11, question: "Land mag geen handelsgoed zijn dat gekocht en verkocht kan worden.", effects: { right: -1 } },
+			{ id: 12, question: "Alle industrie en banken moeten genationaliseerd worden.", effects: { right: -1 } },
+			{ id: 13, question: "Klasse is de belangrijkste splitsing van de maatschappij.", effects: { right: -1 } },
+			{ id: 14, question: "Economische ongelijkheid is te hoog in de wereld.", effects: { right: -1 } },
+			{ id: 15, question: "Soms mag de regering haar burgers bespioneren om extremisten en terroristen te bestrijden.", effects: { auth: 1 } },
+			{ id: 16, question: "Gezagsdragers, als zij moreel juist zijn, zijn iets goeds voor de samenleving.", effects: { auth: 1 } },
+			{ id: 17, question: "Sterkte is noodzakelijk voor een regering om te slagen.", effects: { auth: 1 } },
+			{ id: 18, question: "Alleen de regering kan organisaties eerlijk en effectief reguleren.", effects: { auth: 1 } },
+			{ id: 19, question: "De samenleving heeft structuur en bureaucratie nodig om te functioneren.", effects: { auth: 1 } },
+			{ id: 20, question: "Verplichte ID's moeten gebruikt worden voor openbare veiligheid.", effects: { auth: 1 } },
+			{ id: 21, question: "In tijden van crisis wordt veiligheid belangrijker dan burgerlijke vrijheden.", effects: { auth: 1 } },
+			{ id: 22, question: "Als je niets te verbergen hebt, hoef je niet bang te zijn.", effects: { auth: 1 } },
+			{ id: 23, question: "De regering zou minder betrokken moeten zijn bij het dagelijks leven van haar burgers.", effects: { auth: -1 } },
+			{ id: 24, question: "Zonder democratie is een samenleving niets.", effects: { auth: -1 } },
+			{ id: 25, question: "Jury nullification moet legaal zijn.", effects: { auth: -1 } },
+			{ id: 26, question: "Hoe kleiner de regering, hoe vrijer de mensen.", effects: { auth: -1 } },
+			{ id: 27, question: "De regering zou maximaal nood- en politiediensten moeten leveren.", effects: { auth: -1 } },
+			{ id: 28, question: "De politie is niet gemaakt om mensen te beschermen, maar om de status-quo met geweld te handhaven.", effects: { auth: -1 } },
+			{ id: 29, question: "Openbare scholen zijn een slecht idee omdat de staat onze kinderen niet zou mogen beïnvloeden.", effects: { auth: -1 } },
+			{ id: 30, question: "Twee toestemmende individuen zouden alles met elkaar kunnen doen wat zij willen, ook al maakt het mij ongemakkelijk.", effects: { prog: 1 } },
+			{ id: 31, question: "Het lichaam van een individu is hun eigendom, en zij moeten alles ermee kunnen doen wat zij wensen.", effects: { prog: 1 } },
+			{ id: 32, question: "Een persoon moet kunnen aanbidden wie of wat zij willen.", effects: { prog: 1 } },
+			{ id: 33, question: "Naturisme is volkomen natuurlijk.", effects: { prog: 1 } },
+			{ id: 34, question: "Dieren verdienen bepaalde universele rechten.", effects: { prog: 1 } },
+			{ id: 35, question: "Geslacht is een maatschappelijk construct, geen natuurlijke toestand.", effects: { prog: 1 } },
+			{ id: 36, question: "Wetten gebaseerd op culturele waarden, in plaats van ethische, zijn geen gerechtigheid.", effects: { prog: 1 } },
+			{ id: 37, question: "Autonomie van het lichaam strekt zich ook uit tot minderjarigen, geesteszieken en ernstige criminelen.", effects: { prog: 1 } },
+			{ id: 38, question: "Homoseksualiteit gaat tegen mijn waarden in.", effects: { prog: -1 } },
+			{ id: 39, question: "Transgender personen zouden geen kinderen mogen adopteren.", effects: { prog: -1 } },
+			{ id: 40, question: "Drugs zijn schadelijk en moeten verboden worden.", effects: { prog: -1 } },
+			{ id: 41, question: "De doodstraf moet voor bepaalde misdaden bestaan.", effects: { prog: -1 } },
+			{ id: 42, question: "Misdrijven zonder slachtoffers zouden nog steeds gestraft moeten worden.", effects: { prog: -1 } },
+			{ id: 43, question: "Men kan niet moreel zijn zonder religie.", effects: { prog: -1 } },
+			{ id: 44, question: "Ouders zouden absolute macht over hun kinderen moeten hebben, omdat zij ouder en ervaarder zijn.", effects: { prog: -1 } },
+			{ id: 45, question: "Multiculturalisme is slecht.", effects: { prog: -1 } }
+		];
+
+		const answerLabels = {
+			en: { 1: 'Strongly Agree', 0.5: 'Agree', 0: 'Neutral / Unsure', '-0.5': 'Disagree', '-1': 'Strongly Disagree' },
+			nl: { 1: 'Helemaal eens', 0.5: 'Eens', 0: 'Neutraal / Onzeker', '-0.5': 'Oneens', '-1': 'Helemaal oneens' }
+		};
+
+		const i18n = {
+			en: {
+				what_is_nextcompass: 'What is NextCompass?',
+				nextcompass_desc: 'NextCompass is a fork of SapplyValues, which is an implementation of the Sapply political compass test with the UI of the 8values test.',
+				nextcompass_desc2: 'This is a standalone version that requires no server, no Node.js, and works entirely in your browser.',
+				question: 'Question',
+				strongly_agree: 'Strongly Agree',
+				agree: 'Agree',
+				neutral: 'Neutral / Unsure',
+				disagree: 'Disagree',
+				strongly_disagree: 'Strongly Disagree',
+				results: 'Results',
+				your_answers: 'Your Answers',
+				answer: 'Answer',
+				orientation: 'Orientation',
+				back: 'Back',
+				Centrist: 'Centrist',
+				Authoritarian: 'Authoritarian',
+				Libertarian: 'Libertarian',
+				Left: 'Left',
+				Right: 'Right',
+				Progressive: 'Progressive',
+				Conservative: 'Conservative'
+			},
+			nl: {
+				what_is_nextcompass: 'Wat is NextCompass?',
+				nextcompass_desc: 'NextCompass is een fork van SapplyValues, een implementatie van de Sapply politieke kompastest met de UI van de 8values test.',
+				nextcompass_desc2: 'Dit is een zelfstandige versie die geen server, geen Node.js nodig heeft en volledig in uw browser werkt.',
+				question: 'Vraag',
+				strongly_agree: 'Helemaal eens',
+				agree: 'Eens',
+				neutral: 'Neutraal / Onzeker',
+				disagree: 'Oneens',
+				strongly_disagree: 'Helemaal oneens',
+				results: 'Resultaten',
+				your_answers: 'Uw antwoorden',
+				answer: 'Antwoord',
+				orientation: 'Oriëntatie',
+				back: 'Terug',
+				Centrist: 'Centrist',
+				Authoritarian: 'Autoritair',
+				Libertarian: 'Libertair',
+				Left: 'Links',
+				Right: 'Rechts',
+				Progressive: 'Progressief',
+				Conservative: 'Conservatief'
+			}
+		};
+
+		let currentLanguage = 'en';
+		let currentQuestion = 0;
+		let answers = {};
+		let questions = questionsEN;
+
+		function setLanguage(lang) {
+			currentLanguage = lang;
+			questions = lang === 'en' ? questionsEN : questionsNL;
+			document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+			document.getElementById('lang-nl').classList.toggle('active', lang === 'nl');
+			updateUI();
+		}
+
+		function updateUI() {
+			document.querySelectorAll('[data-i18n]').forEach(el => {
+				const key = el.getAttribute('data-i18n');
+				el.textContent = i18n[currentLanguage][key];
+			});
+		}
+
+		function drawCompass() {
+			const canvas = document.getElementById('banner');
+			if (!canvas) return;
+			const ctx = canvas.getContext('2d');
+			
+			// Draw a simple compass background
+			ctx.fillStyle = '#ffffff';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			
+			ctx.fillStyle = '#ccc';
+			ctx.fillRect(50, 50, canvas.width - 100, canvas.height - 100);
+			
+			const centerX = canvas.width / 2;
+			const centerY = canvas.height / 2;
+			
+			// Draw axes
+			ctx.strokeStyle = '#333';
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.moveTo(50, centerY);
+			ctx.lineTo(canvas.width - 50, centerY);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(centerX, 50);
+			ctx.lineTo(centerX, canvas.height - 50);
+			ctx.stroke();
+			
+			// Labels
+			ctx.font = '12px Arial';
+			ctx.fillStyle = '#333';
+			ctx.textAlign = 'center';
+			ctx.fillText('LEFT', 60, centerY - 20);
+			ctx.fillText('RIGHT', canvas.width - 60, centerY - 20);
+			ctx.fillText('LIBERAL', centerX, 40);
+			ctx.fillText('AUTH', centerX, canvas.height - 20);
+		}
+
+		function startQuiz() {
+			currentQuestion = 0;
+			answers = {};
+			showQuiz();
+		}
+
+		function showQuiz() {
+			document.querySelector('.home-container').classList.remove('active');
+			document.querySelector('.results-container').classList.remove('active');
+			document.querySelector('.quiz-container').classList.add('active');
+			updateQuestion();
+		}
+
+		function updateQuestion() {
+			const q = questions[currentQuestion];
+			document.getElementById('question-text').textContent = q.question;
+			document.getElementById('current-question').textContent = currentQuestion + 1;
+			document.getElementById('total-questions').textContent = questions.length;
+		}
+
+		function submitAnswer(strength) {
+			answers[currentQuestion] = strength;
+			if (currentQuestion < questions.length - 1) {
+				currentQuestion++;
+				updateQuestion();
+			} else {
+				showResults();
+			}
+		}
+
+		function showResults() {
+			const results = sumAnswers(answers);
+			drawResultsCompass(results);
+			fillAnswerTable(answers, results);
+			
+			document.querySelector('.quiz-container').classList.remove('active');
+			document.querySelector('.results-container').classList.add('active');
+		}
+
+		function sumAnswers(answers) {
+			const right = questions
+				.filter(q => 'right' in q.effects)
+				.reduce((sum, q) => sum + (answers[q.id] || 0) * q.effects.right, 0);
+			
+			const auth = questions
+				.filter(q => 'auth' in q.effects)
+				.reduce((sum, q) => sum + (answers[q.id] || 0) * q.effects.auth, 0);
+			
+			const prog = questions
+				.filter(q => 'prog' in q.effects)
+				.reduce((sum, q) => sum + (answers[q.id] || 0) * q.effects.prog, 0);
+			
+			return { right, auth, prog };
+		}
+
+		function drawResultsCompass(results) {
+			const canvas = document.getElementById('compass-canvas');
+			const ctx = canvas.getContext('2d');
+			
+			ctx.fillStyle = '#EEEEEE';
+			ctx.fillRect(0, 0, 1850, 1600);
+			
+			// Draw quadrants
+			ctx.fillStyle = 'rgba(255, 100, 100, 0.2)';
+			ctx.fillRect(0, 0, 925, 800);
+			ctx.fillStyle = 'rgba(100, 150, 255, 0.2)';
+			ctx.fillRect(925, 0, 925, 800);
+			ctx.fillStyle = 'rgba(100, 255, 100, 0.2)';
+			ctx.fillRect(0, 800, 925, 800);
+			ctx.fillStyle = 'rgba(255, 255, 100, 0.2)';
+			ctx.fillRect(925, 800, 925, 800);
+			
+			// Draw axes
+			ctx.strokeStyle = '#999';
+			ctx.lineWidth = 3;
+			ctx.beginPath();
+			ctx.moveTo(925, 0);
+			ctx.lineTo(925, 1600);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.moveTo(0, 800);
+			ctx.lineTo(1850, 800);
+			ctx.stroke();
+			
+			// Draw position
+			const { right: x_axis, auth: y_axis } = results;
+			const posX = 200 + (1000 * (x_axis + 10)) / 20;
+			const posY = 1150 - (1000 * (y_axis + 10)) / 20;
+			
+			ctx.beginPath();
+			ctx.arc(posX, posY, 25, 0, 2 * Math.PI);
+			ctx.fillStyle = 'red';
+			ctx.fill();
+			ctx.strokeStyle = 'darkred';
+			ctx.lineWidth = 2;
+			ctx.stroke();
+			
+			// Labels
+			ctx.font = '50px Arial';
+			ctx.textAlign = 'center';
+			ctx.fillStyle = '#222222';
+			ctx.fillText(`Left/Right: ${x_axis.toFixed(2)}`, 725, 1375);
+			ctx.fillText(`Auth/Lib: ${y_axis.toFixed(2)}`, 725, 1450);
+			
+			ctx.font = '30px Arial';
+			ctx.fillText('LEFT', 100, 100);
+			ctx.fillText('RIGHT', 1750, 100);
+			ctx.fillText('LIBERTARIAN', 925, 100);
+			ctx.fillText('AUTHORITARIAN', 925, 1550);
+		}
+
+		function fillAnswerTable(answers, results) {
+			const tbody = document.getElementById('answers-table');
+			tbody.innerHTML = '';
+			
+			questions.forEach(q => {
+				const answer = answers[q.id] || 0;
+				const [axis, effect] = Object.entries(q.effects)[0];
+				const desc = getPositionDescription(axis, effect * answer);
+				
+				const row = tbody.insertRow();
+				row.innerHTML = `
+					<td>${q.question}</td>
+					<td>${answerLabels[currentLanguage][answer]}</td>
+					<td class="${desc.class}">${desc.label}</td>
+				`;
+			});
+		}
+
+		function getPositionDescription(axis, strength) {
+			const labels = i18n[currentLanguage];
+			
+			if (strength === 0) return { label: labels.Centrist, class: 'Centrist' };
+			if (axis === 'auth') {
+				return strength > 0 
+					? { label: labels.Authoritarian, class: 'Auth' }
+					: { label: labels.Libertarian, class: 'Lib' };
+			}
+			if (axis === 'right') {
+				return strength > 0
+					? { label: labels.Right, class: 'Right' }
+					: { label: labels.Left, class: 'Left' };
+			}
+			if (axis === 'prog') {
+				return strength > 0
+					? { label: labels.Progressive, class: 'Prog' }
+					: { label: labels.Conservative, class: 'Con' };
+			}
+			return { label: labels.Centrist, class: 'Centrist' };
+		}
+
+		function goHome() {
+			document.querySelector('.results-container').classList.remove('active');
+			document.querySelector('.home-container').classList.add('active');
+		}
+
+		// Initialize
+		drawCompass();
+		updateUI();
+	</script>
+</body>
+</html>
